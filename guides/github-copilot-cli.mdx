@@ -1,0 +1,101 @@
+---
+title: "GitHub Copilot CLI with DeepSeek V4 via BYOK Anthropic"
+description: "Configure Copilot CLI to use DeepSeek V4 Pro via BYOK with the Anthropic-compatible endpoint, enabling full agent mode and MCP support."
+---
+
+GitHub Copilot CLI supports Bring Your Own Key (BYOK), letting you swap its default model for any compatible provider. DeepSeek V4 works through the Anthropic-compatible endpoint — using the OpenAI endpoint instead triggers a `400` error because Copilot CLI's OpenAI integration does not echo back the `reasoning_content` field that DeepSeek requires.
+
+<Warning>
+  Always set `COPILOT_PROVIDER_TYPE=anthropic`. Setting it to `openai` causes a `400` error: `The reasoning_content in the thinking mode must be passed back to the API.`
+</Warning>
+
+<Steps>
+  <Step title="Install GitHub Copilot CLI">
+    Requires Node.js 22 or later.
+
+    ```bash
+    npm install -g @github/copilot
+    ```
+
+    See the [official getting-started guide](https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-getting-started) for authentication and first-run setup.
+  </Step>
+
+  <Step title="Get a DeepSeek API key">
+    Go to [DeepSeek Platform](https://platform.deepseek.com/api_keys) and create a new API key. Copy the key — it starts with `sk-`.
+  </Step>
+
+  <Step title="Configure environment variables">
+    Set the four required variables before running Copilot CLI.
+
+    <Tabs>
+      <Tab title="Linux / macOS">
+        ```bash
+        export COPILOT_PROVIDER_TYPE=anthropic
+        export COPILOT_PROVIDER_BASE_URL=https://api.deepseek.com/anthropic
+        export COPILOT_PROVIDER_API_KEY=sk-your-deepseek-api-key
+        export COPILOT_MODEL=deepseek-v4-pro
+        ```
+      </Tab>
+      <Tab title="Windows (PowerShell)">
+        ```powershell
+        $env:COPILOT_PROVIDER_TYPE="anthropic"
+        $env:COPILOT_PROVIDER_BASE_URL="https://api.deepseek.com/anthropic"
+        $env:COPILOT_PROVIDER_API_KEY="sk-your-deepseek-api-key"
+        $env:COPILOT_MODEL="deepseek-v4-pro"
+        ```
+      </Tab>
+    </Tabs>
+
+    To use DeepSeek V4 Flash instead, change `COPILOT_MODEL` to `deepseek-v4-flash`.
+  </Step>
+
+  <Step title="Start Copilot CLI">
+    ```bash
+    copilot
+    ```
+
+    Full agent mode, tool calling, and MCP support are available — all powered by DeepSeek.
+  </Step>
+</Steps>
+
+## Optional: set token limits
+
+Because `deepseek-v4-pro` is not in Copilot CLI's built-in model catalog, the token limits are not set automatically. Configure them explicitly to avoid truncation.
+
+<Tabs>
+  <Tab title="Linux / macOS">
+    ```bash
+    export COPILOT_PROVIDER_MAX_PROMPT_TOKENS=840000
+    export COPILOT_PROVIDER_MAX_OUTPUT_TOKENS=128000
+    ```
+  </Tab>
+  <Tab title="Windows (PowerShell)">
+    ```powershell
+    $env:COPILOT_PROVIDER_MAX_PROMPT_TOKENS="840000"
+    $env:COPILOT_PROVIDER_MAX_OUTPUT_TOKENS="128000"
+    ```
+  </Tab>
+</Tabs>
+
+Run `copilot help providers` to see all available environment variables.
+
+## Optional: offline mode
+
+Offline mode blocks GitHub's API calls while leaving `api.deepseek.com` traffic unaffected.
+
+<Tabs>
+  <Tab title="Linux / macOS">
+    ```bash
+    export COPILOT_OFFLINE=true
+    ```
+  </Tab>
+  <Tab title="Windows (PowerShell)">
+    ```powershell
+    $env:COPILOT_OFFLINE="true"
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  Your prompts still travel to `api.deepseek.com` — offline mode only suppresses calls to GitHub's API.
+</Note>

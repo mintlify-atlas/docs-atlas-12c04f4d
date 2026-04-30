@@ -1,0 +1,52 @@
+---
+title: "Add DeepSeek V4 Pro to GitHub Copilot Chat in VS Code"
+description: "A VS Code extension that adds DeepSeek V4 Pro and Flash to the Copilot Chat model picker, keeping agent mode, tool calling, and MCP intact."
+---
+
+The **DeepSeek V4 for Copilot Chat** extension slots DeepSeek V4 Pro and Flash directly into GitHub Copilot Chat without replacing any Copilot functionality. Agent mode, tool calling, skills, and MCP all continue to work — the only thing that changes is the model powering the responses.
+
+<Steps>
+  <Step title="Install the extension">
+    Make sure you have [VS Code](https://code.visualstudio.com/) 1.116 or later and an active GitHub Copilot subscription (the free tier is sufficient).
+
+    Install **DeepSeek V4 for Copilot Chat** from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Vizards.deepseek-v4-for-copilot).
+  </Step>
+
+  <Step title="Get a DeepSeek API key">
+    Go to [DeepSeek Platform](https://platform.deepseek.com/api_keys) and create a new API key. Copy the key — it starts with `sk-`.
+  </Step>
+
+  <Step title="Set the API key via Command Palette">
+    Open the Command Palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Windows/Linux), run **DeepSeek: Set API Key**, and paste your key.
+
+    <Note>
+      The key is stored securely in the OS keychain and never written to disk.
+    </Note>
+  </Step>
+
+  <Step title="Select the model and start chatting">
+    Open Copilot Chat (`Cmd+Shift+I` / `Ctrl+Shift+I`), click the model picker at the top-right of the chat panel, and choose **DeepSeek V4 Pro** or **DeepSeek V4 Flash**.
+
+    Agent mode, tool calling, and all other Copilot features work out of the box with either model.
+  </Step>
+</Steps>
+
+## Configure thinking effort
+
+In the model picker, click the gear icon next to a DeepSeek model to set the thinking effort level.
+
+<Tip>
+  Three levels are available:
+
+  - **None** — fastest responses, no extended reasoning.
+  - **High** — balanced speed and depth (default).
+  - **Max** — deep reasoning for complex or ambiguous tasks.
+</Tip>
+
+## Vision support
+
+DeepSeek V4 is a text-only model, but the extension handles image inputs automatically.
+
+<Note>
+  Drop a screenshot into the chat panel and the extension proxies the image through another installed Copilot model (Claude, GPT-4o, or similar) to generate a text description, which is then forwarded to DeepSeek. Run **DeepSeek: Set Vision Proxy Model** from the Command Palette to choose which model handles image descriptions.
+</Note>

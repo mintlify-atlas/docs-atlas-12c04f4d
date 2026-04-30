@@ -1,0 +1,95 @@
+---
+title: "nanobot with DeepSeek: lightweight terminal AI agent"
+description: "Install nanobot via uv, write a short config.json with your DeepSeek API key, and run a lightweight AI agent in your terminal in minutes."
+---
+
+nanobot is a lightweight AI agent that supports integration with popular chat tools. It is distributed as a `uv` tool, so installation is a single command, and configuration is a plain JSON file. This guide walks you through installing nanobot, writing the DeepSeek provider configuration, and running the agent.
+
+<Steps>
+  <Step title="Install nanobot">
+    First, make sure [uv](https://github.com/astral-sh/uv) is installed, then run:
+
+    ```bash
+    uv tool install nanobot-ai
+    ```
+
+    <Tabs>
+      <Tab title="Windows">
+        After installation, add the `uv` tools directory to your `PATH` for the current session:
+
+        ```powershell
+        $env:PATH = "$env:USERPROFILE\.local\bin;$env:PATH"
+        ```
+
+        Or update your shell permanently using `uv`:
+
+        ```powershell
+        uv tool update-shell
+        ```
+      </Tab>
+      <Tab title="Linux / macOS">
+        The installer adds the tools directory to your `PATH` automatically. If `nanobot` is not found after installation, restart your terminal or run:
+
+        ```bash
+        uv tool update-shell
+        ```
+      </Tab>
+    </Tabs>
+
+    Verify the installation by checking the version:
+
+    ```bash
+    nanobot --version
+    ```
+
+    A version number in the output confirms nanobot is installed correctly.
+  </Step>
+
+  <Step title="Initialize and configure nanobot">
+    Run the onboarding command to create the default configuration file:
+
+    ```bash
+    nanobot onboard
+    ```
+
+    The configuration file is written to a platform-specific location:
+
+    - **Windows**: `$env:USERPROFILE\.nanobot\config.json`
+    - **Linux / macOS**: `~/.nanobot/config.json`
+
+    Open `config.json` and add the DeepSeek provider and agent defaults:
+
+    ```json
+    {
+        "agents": {
+            "defaults": {
+                "model": "deepseek-v4-pro",
+                "provider": "deepseek"
+            }
+        },
+        "providers": {
+            "deepseek": {
+                "apiKey": "<your DeepSeek API Key>",
+                "apiBase": "https://api.deepseek.com/v1"
+            }
+        }
+    }
+    ```
+
+    Replace `<your DeepSeek API Key>` with your key from the [DeepSeek platform](https://platform.deepseek.com/api_keys).
+
+    <Note>
+      The source config uses trailing commas, which are not valid JSON. The block above omits them so the file parses correctly.
+    </Note>
+  </Step>
+
+  <Step title="Run the nanobot agent">
+    Start the agent from your terminal:
+
+    ```bash
+    nanobot agent
+    ```
+
+    nanobot connects to the DeepSeek API using the provider configuration you set and is ready to accept messages.
+  </Step>
+</Steps>

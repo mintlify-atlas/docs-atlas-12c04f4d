@@ -1,0 +1,132 @@
+---
+title: "Oh My Pi with DeepSeek: custom models.yml setup guide"
+description: "Set up Oh My Pi with a custom models.yml to reliably use DeepSeek V4 Pro and Flash, including the three critical compat fields for thinking mode."
+---
+
+Oh My Pi is a terminal AI coding agent. As of v14.5 it ships DeepSeek V4 model entries, but the built-in entries are missing three critical compatibility fields — a custom `models.yml` is required for reliable use, especially in thinking mode with tool calls.
+
+<Steps>
+  <Step title="Install Oh My Pi and get an API key">
+    Follow the [Oh My Pi installation instructions](https://github.com/can1357/oh-my-pi#installation), then get an API key from the [DeepSeek Platform](https://platform.deepseek.com/api_keys).
+
+    Set the environment variable:
+
+    ```bash
+    export DEEPSEEK_API_KEY=<your API key>
+    ```
+  </Step>
+
+  <Step title="Create the models.yml configuration">
+    Create `~/.omp/agent/models.yml` with the following content:
+
+    ```yaml
+    providers:
+      deepseek:
+        baseUrl: https://api.deepseek.com
+        api: openai-completions
+        apiKey: DEEPSEEK_API_KEY
+        authHeader: true
+        models:
+          - id: deepseek-v4-pro
+            name: DeepSeek V4 Pro
+            reasoning: true
+            thinking:
+              minLevel: high
+              maxLevel: xhigh
+              mode: effort
+            input: [text]
+            contextWindow: 1000000
+            maxTokens: 384000
+            compat:
+              supportsDeveloperRole: false
+              supportsReasoningEffort: true
+              maxTokensField: max_tokens
+              reasoningEffortMap:
+                high: high
+                xhigh: max
+              supportsToolChoice: false
+              requiresReasoningContentForToolCalls: true
+              requiresAssistantContentForToolCalls: true
+              extraBody:
+                thinking:
+                  type: enabled
+          - id: deepseek-v4-flash
+            name: DeepSeek V4 Flash
+            reasoning: true
+            thinking:
+              minLevel: high
+              maxLevel: xhigh
+              mode: effort
+            input: [text]
+            contextWindow: 1000000
+            maxTokens: 384000
+            compat:
+              supportsDeveloperRole: false
+              supportsReasoningEffort: true
+              maxTokensField: max_tokens
+              reasoningEffortMap:
+                high: high
+                xhigh: max
+              supportsToolChoice: false
+              requiresReasoningContentForToolCalls: true
+              requiresAssistantContentForToolCalls: true
+              extraBody:
+                thinking:
+                  type: enabled
+    ```
+  </Step>
+
+  <Step title="Run Oh My Pi">
+    Navigate to your project directory and launch Oh My Pi with your chosen model:
+
+    ```bash
+    cd /path/to/your-project
+    omp --model deepseek/deepseek-v4-pro
+    ```
+
+    For faster, lower-cost responses:
+
+    ```bash
+    omp --model deepseek/deepseek-v4-flash
+    ```
+
+    Switch models inside Oh My Pi with `/model` or `Ctrl+L`.
+  </Step>
+</Steps>
+
+## Configuration notes
+
+### Basics
+
+| Field | Notes |
+| ----- | ----- |
+| `baseUrl: https://api.deepseek.com` | DeepSeek OpenAI-compatible endpoint. Do not append `/v1`. |
+| `authHeader: true` | Sends `Authorization: Bearer $DEEPSEEK_API_KEY`. Does not go through OAuth `/login`. |
+| `supportsDeveloperRole: false` | Sends system prompt as `system` role. DeepSeek rejects the `developer` role. |
+| `maxTokensField: max_tokens` | DeepSeek uses `max_tokens`, not OpenAI's `max_completion_tokens`. |
+
+### Thinking mode
+
+| Field | Notes |
+| ----- | ----- |
+| `thinking.mode: effort` | Uses effort-based thinking. Oh My Pi sends a `reasoning_effort` parameter. |
+| `thinking.minLevel: high` / `maxLevel: xhigh` | Locks the selector to DeepSeek's two supported levels. |
+| `reasoningEffortMap: { high: high, xhigh: max }` | Maps Oh My Pi's `xhigh` to DeepSeek's `max`. Without this, `xhigh` is unrecognized. |
+| `extraBody.thinking.type: enabled` | Explicitly enables DeepSeek V4 thinking mode. |
+| `supportsReasoningEffort: true` | Allows Oh My Pi to send `reasoning_effort`. |
+
+### Three critical compat fields
+
+These fields are required. Without them, DeepSeek V4 returns 400 errors when using tools in thinking mode.
+
+| Field | Notes |
+| ----- | ----- |
+| `supportsToolChoice: false` | DeepSeek V4 thinking mode rejects the `tool_choice` parameter. |
+| `requiresReasoningContentForToolCalls: true` | DeepSeek requires `reasoning_content` to be preserved across tool-call turns. Skipping this causes 400. |
+| `requiresAssistantContentForToolCalls: true` | Ensures tool-call messages have non-null `content`. Use together with the field above. |
+
+<Warning>
+  Do not rely on the built-in model entries. Recent builds list `deepseek-v4-pro` and `deepseek-v4-flash` via `omp --list-models deepseek`, but they lack the three critical compat fields. Long thinking-mode conversations with tool calls will 400. Always use the `models.yml` shown above.
+
+  In `models.yml`, the `compat` block replaces the built-in block wholesale — it does not merge. Always specify the full set of compat fields.
+</Warning>

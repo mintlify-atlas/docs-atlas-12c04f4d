@@ -1,0 +1,75 @@
+---
+title: "How to contribute a DeepSeek tool integration guide"
+description: "Add a new tool integration guide to Awesome DeepSeek Agent by forking the repo, following the guide structure, and opening a pull request."
+---
+
+This page explains how to contribute a new integration guide to the Awesome DeepSeek Agent collection. If you've connected DeepSeek to a tool that isn't listed here, a guide following the structure below is all you need to open a pull request.
+
+<Note>
+  Browse open issues, review existing PRs, and submit your contribution at [github.com/deepseek-ai/awesome-deepseek-agent](https://github.com/deepseek-ai/awesome-deepseek-agent).
+</Note>
+
+<Steps>
+  <Step title="Fork the repository">
+    Fork [deepseek-ai/awesome-deepseek-agent](https://github.com/deepseek-ai/awesome-deepseek-agent) on GitHub, then clone your fork locally:
+
+    ```bash
+    git clone https://github.com/<your-username>/awesome-deepseek-agent.git
+    cd awesome-deepseek-agent
+    ```
+  </Step>
+  <Step title="Create a guide following the standard structure">
+    Add a new Markdown file under `docs/`. Name it after the tool in lowercase with hyphens, for example `docs/my-tool.md`.
+
+    Every guide in the collection follows this three-section structure:
+
+    ```markdown
+    # Integrate with <Tool Name>
+
+    <One-sentence description of the tool.>
+
+    #### 1. Install <Tool Name>
+
+    <Installation steps and prerequisite commands.>
+
+    #### 2. Configure
+
+    <How to set the DeepSeek API key and base URL.
+    Include both Linux/macOS and Windows variants where they differ.>
+
+    #### 3. Run
+
+    <The exact command to launch the tool and start the first session.>
+    ```
+
+    Use the Claude Code or OpenCode guides as a reference for the expected level of detail and formatting.
+
+    Add a row for the new tool to the table in `README.md`:
+
+    ```markdown
+    | **My Tool** | Brief description of the tool. | [Guide](./docs/my-tool.md) |
+    ```
+  </Step>
+  <Step title="Submit a pull request">
+    Push your branch and open a pull request against `main`:
+
+    ```bash
+    git checkout -b add-my-tool-guide
+    git add docs/my-tool.md README.md
+    git commit -m "Add integration guide for My Tool"
+    git push origin add-my-tool-guide
+    ```
+
+    In the PR description, include a brief note about what the tool does and how it connects to DeepSeek. A maintainer will review and merge it.
+  </Step>
+</Steps>
+
+## Guide checklist
+
+Before submitting, confirm your guide:
+
+- Opens with a one-sentence description of the tool
+- Covers install, configure, and run in that order
+- Includes the exact environment variable names or config fields for the DeepSeek API key and base URL
+- Provides separate commands for Linux/macOS and Windows if the syntax differs
+- Links back to `README.md` with `[← Back](../README.md)` at the top

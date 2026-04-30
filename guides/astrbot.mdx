@@ -1,0 +1,85 @@
+---
+title: "AstrBot with DeepSeek: Feishu, Telegram, QQ, WeChat"
+description: "Connect DeepSeek to QQ, WeChat, Feishu, and Telegram using AstrBot, the open-source all-in-one agent assistant with plugin and MCP support."
+---
+
+AstrBot is an open-source all-in-one agent assistant that integrates with mainstream messaging platforms such as QQ, WeChat, Feishu, and Telegram. It supports skills, plugins, and MCPs, making it a flexible host for DeepSeek models. This guide walks you through installing AstrBot, connecting your DeepSeek API key, and starting your first conversation.
+
+<Steps>
+  <Step title="Install AstrBot">
+    Choose whether to install AstrBot using the `uv`-based installer or Docker.
+
+    <Tabs>
+      <Tab title="uv installer">
+        **macOS and Linux**
+
+        ```bash
+        curl -LsSf https://docs.astrbot.app/install.sh | bash
+        ```
+
+        **Windows**
+
+        ```powershell
+        iwr -useb https://docs.astrbot.app/install.ps1 | iex
+        ```
+
+        After installation, initialize and start AstrBot:
+
+        ```bash
+        astrbot init
+        astrbot run
+        ```
+
+        <Note>
+          Run `astrbot init` only once — it installs AstrBot into the current directory. `astrbot run` checks for an existing installation and prompts you to run `init` if none is found.
+        </Note>
+      </Tab>
+      <Tab title="Docker">
+        Clone the repository and start the service with Docker Compose:
+
+        ```bash
+        git clone https://github.com/AstrBotDevs/AstrBot --depth 1
+        cd AstrBot
+        sudo docker compose up -d
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Open the Web UI">
+    Once AstrBot is running, open the Web UI in your browser:
+
+    ```
+    http://localhost:6185
+    ```
+
+    If AstrBot is running on a remote server, replace `localhost` with your server's IP address:
+
+    ```
+    http://<server-ip>:6185
+    ```
+  </Step>
+
+  <Step title="Configure the DeepSeek provider">
+    1. In the left sidebar, open the **Providers** page.
+    2. Click **+ Add**, then select **DeepSeek** from the provider list.
+    3. Paste your [DeepSeek API key](https://platform.deepseek.com/api_keys) into the **API Key** field.
+    4. Click **Save Configuration**.
+
+    Next, set your default model:
+
+    1. Open the **Config (Normal Config)** page.
+    2. Set **Default Chat Model** to the DeepSeek provider you just added.
+    3. Confirm the selection and click the save button in the bottom-right corner.
+
+    <Tip>
+      For messaging platform integrations (QQ, WeChat, Feishu, Telegram) and additional skills, refer to the [AstrBot documentation](https://docs.astrbot.app/).
+    </Tip>
+  </Step>
+
+  <Step title="Start chatting">
+    Click **Chat** in the top-right corner of the Web UI to switch to the AstrBot Chat interface. You can now send messages directly to the DeepSeek model from your browser.
+
+    To chat from a connected messaging platform, configure the relevant platform integration in the AstrBot settings and use your preferred app as normal.
+  </Step>
+</Steps>

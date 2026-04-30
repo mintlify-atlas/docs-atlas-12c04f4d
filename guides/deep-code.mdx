@@ -1,0 +1,82 @@
+---
+title: "Deep Code CLI: DeepSeek with thinking and Agent Skills"
+description: "Install and configure Deep Code CLI to run DeepSeek V4 Pro with deep thinking, reasoning effort control, and Agent Skills from your terminal."
+---
+
+Deep Code is an open-source terminal AI coding assistant built for the DeepSeek-V4 model. It supports deep thinking mode, configurable reasoning effort, Agent Skills discovery, and a web search tool — all from a single `deepcode` command. The settings file is shared with the Deep Code VSCode extension, so your configuration works across both environments.
+
+<Steps>
+  <Step title="Install Deep Code">
+    Install [Node.js](https://nodejs.org/en/download/) 18 or later, then install the Deep Code CLI:
+
+    ```bash
+    npm install -g @vegamo/deepcode-cli
+    ```
+
+    Verify the installation:
+
+    ```bash
+    deepcode --version
+    ```
+  </Step>
+
+  <Step title="Configure Deep Code">
+    Create `~/.deepcode/settings.json` with your DeepSeek API key and preferred model settings:
+
+    ```json
+    {
+      "env": {
+        "MODEL": "deepseek-v4-pro",
+        "BASE_URL": "https://api.deepseek.com",
+        "API_KEY": "sk-..."
+      },
+      "thinkingEnabled": true,
+      "reasoningEffort": "max"
+    }
+    ```
+
+    Get your API key from the [DeepSeek Platform](https://platform.deepseek.com/api_keys).
+
+    The full set of configuration options:
+
+    | Option | Description |
+    |--------|-------------|
+    | `MODEL` | Model name, e.g. `deepseek-v4-pro` or `deepseek-v4-flash` |
+    | `BASE_URL` | API base URL, defaults to `https://api.deepseek.com` |
+    | `thinkingEnabled` | Enable deep thinking mode (defaults to `true` for deepseek-v4 models) |
+    | `reasoningEffort` | `"max"` or `"high"` — controls how much reasoning the model performs |
+    | `notify` | Path to a notification script executed after each model turn |
+    | `webSearchTool` | Enable the web search capability for the agent |
+  </Step>
+
+  <Step title="Run Deep Code">
+    Navigate to your project directory and launch Deep Code:
+
+    ```bash
+    cd /path/to/my-project
+    deepcode
+    ```
+  </Step>
+</Steps>
+
+## Keyboard shortcuts
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Send the prompt |
+| `Shift+Enter` | Insert a newline (also `Ctrl+J`) |
+| `Ctrl+V` | Paste an image from the clipboard |
+| `Esc` | Interrupt the current model turn |
+| `/` | Open the skills / commands menu |
+| `/new` | Start a fresh conversation |
+| `/resume` | Choose a previous conversation to continue |
+| `/exit` | Quit Deep Code |
+
+## Agent Skills
+
+Deep Code discovers skills from two locations:
+
+- **User-level:** `~/.agents/skills/<name>/SKILL.md`
+- **Project-level:** `./.deepcode/skills/<name>/SKILL.md`
+
+Press `/` to open the skill picker, or type the skill name directly (e.g., `/skill-writer`).

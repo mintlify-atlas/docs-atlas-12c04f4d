@@ -1,0 +1,92 @@
+---
+title: "Add DeepSeek to Crush, Charm's terminal coding agent"
+description: "Configure DeepSeek V4 Pro and Flash as a custom OpenAI-compatible provider in Crush, Charm's open-source terminal AI coding agent with LSP and MCP."
+---
+
+Crush is an open-source terminal AI coding agent built by Charm. It supports multi-model switching, LSP integration, MCP servers, and agentic coding workflows. Crush accepts custom providers through an OpenAI-compatible configuration block, which makes DeepSeek straightforward to wire up.
+
+<Steps>
+  <Step title="Install Crush">
+    Install [Node.js](https://nodejs.org/en/download/), then install Crush globally:
+
+    ```bash
+    npm install -g @charmland/crush
+    ```
+
+    Confirm the installation:
+
+    ```bash
+    crush --version
+    ```
+
+    <Note>
+      macOS users can also install via Homebrew: `brew install charmbracelet/tap/crush`.
+    </Note>
+  </Step>
+
+  <Step title="Add DeepSeek to the configuration file">
+    Open (or create) the Crush configuration file for your platform:
+
+    - **Linux / macOS**: `~/.config/crush/crush.json`
+    - **Windows**: `%USERPROFILE%\.config\crush\crush.json`
+
+    Add the following provider block:
+
+    ```json
+    {
+      "$schema": "https://charm.land/crush.json",
+      "providers": {
+        "deepseek": {
+          "type": "openai-compat",
+          "base_url": "https://api.deepseek.com",
+          "api_key": "$DEEPSEEK_API_KEY",
+          "models": [
+            {
+              "id": "deepseek-v4-pro",
+              "name": "DeepSeek-V4-Pro",
+              "context_window": 1048576,
+              "default_max_tokens": 32768,
+              "can_reason": true
+            },
+            {
+              "id": "deepseek-v4-flash",
+              "name": "DeepSeek-V4-Flash",
+              "context_window": 1048576,
+              "default_max_tokens": 32768,
+              "can_reason": true
+            }
+          ]
+        }
+      }
+    }
+    ```
+
+    Get your API key from the [DeepSeek Platform](https://platform.deepseek.com/api_keys).
+  </Step>
+
+  <Step title="Set the API key environment variable">
+    <Tabs>
+      <Tab title="Linux / macOS">
+        ```bash
+        export DEEPSEEK_API_KEY="<your DeepSeek API Key>"
+        ```
+      </Tab>
+      <Tab title="Windows">
+        ```powershell
+        $env:DEEPSEEK_API_KEY="<your DeepSeek API Key>"
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Run Crush and select the model">
+    Navigate to your project directory and start Crush:
+
+    ```bash
+    cd /path/to/my-project
+    crush
+    ```
+
+    Press `Ctrl+L` (or type `/model`) to open the model switcher. Select the **DeepSeek** provider, then choose `DeepSeek-V4-Pro` or `DeepSeek-V4-Flash`.
+  </Step>
+</Steps>

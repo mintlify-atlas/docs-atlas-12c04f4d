@@ -1,0 +1,30 @@
+---
+title: "Connect DeepSeek V4 to OpenCode with the /connect command"
+description: "Configure OpenCode's built-in DeepSeek provider to run DeepSeek V4 Pro models directly from the terminal without manual API wiring."
+---
+
+OpenCode is an open-source AI coding assistant available in the terminal. It ships a built-in DeepSeek provider, so connecting to DeepSeek V4 models takes only a few keystrokes — no environment variable juggling required.
+
+<Steps>
+  <Step title="Install OpenCode">
+    Follow the instructions on the [OpenCode download page](https://opencode.ai/download) for your platform.
+
+    <Note>
+      Upgrade to version **v1.14.24 or later** to avoid compatibility issues with the DeepSeek provider.
+    </Note>
+  </Step>
+
+  <Step title="Connect the DeepSeek provider">
+    Start OpenCode, then type `/connect` in the input box:
+
+    ```bash
+    opencode
+    ```
+
+    When prompted, type `deepseek` and select the provider from the list. Enter your [DeepSeek API key](https://platform.deepseek.com/api_keys) when asked.
+  </Step>
+
+  <Step title="Select a model">
+    After the provider is connected, select **DeepSeek-V4-Pro** from the model list. OpenCode stores the provider credentials locally so you only need to connect once.
+  </Step>
+</Steps>

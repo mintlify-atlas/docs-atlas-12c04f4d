@@ -1,0 +1,119 @@
+---
+title: "WorkBuddy / CodeBuddy: add DeepSeek via models.json"
+description: "Add DeepSeek V4 Pro and Flash to WorkBuddy or CodeBuddy using a local models.json config file and the OpenAI-compatible Chat Completions API."
+---
+
+WorkBuddy and CodeBuddy support custom models through a local `models.json` configuration file. DeepSeek V4 connects through the OpenAI-compatible Chat Completions API, so no special plugin or extension is required — only a valid API key and a correctly formatted config file.
+
+<Steps>
+  <Step title="Install WorkBuddy / CodeBuddy and get an API key">
+    Install and sign in to WorkBuddy or CodeBuddy. Open a project folder at least once so the application creates its local configuration directories.
+
+    Then go to [DeepSeek Platform](https://platform.deepseek.com/api_keys) and create an API key.
+  </Step>
+
+  <Step title="Set the API key as an environment variable">
+    Setting the key as an environment variable keeps it out of your config files.
+
+    ```powershell
+    setx DEEPSEEK_API_KEY "<your DeepSeek API Key>"
+    ```
+
+    <Warning>
+      Restart any open terminals and WorkBuddy / CodeBuddy after running `setx` — the variable is only available in new sessions.
+    </Warning>
+  </Step>
+
+  <Step title="Create or edit the models.json config file">
+    Choose the scope that fits your use case:
+
+    - **User-level** (applies to all projects): `C:\Users\<your-username>\.codebuddy\models.json`
+    - **Project-level** (applies to one project only): `<your-project>\.codebuddy\models.json`
+
+    Add the following configuration:
+
+    ```json
+    {
+      "models": [
+        {
+          "id": "deepseek-v4-pro",
+          "name": "DeepSeek V4 Pro",
+          "vendor": "DeepSeek",
+          "url": "https://api.deepseek.com/v1/chat/completions",
+          "apiKey": "${DEEPSEEK_API_KEY}",
+          "maxInputTokens": 128000,
+          "maxOutputTokens": 8192,
+          "supportsToolCall": true,
+          "supportsImages": false,
+          "relatedModels": {
+            "lite": "deepseek-v4-flash",
+            "reasoning": "deepseek-v4-pro"
+          }
+        },
+        {
+          "id": "deepseek-v4-flash",
+          "name": "DeepSeek V4 Flash",
+          "vendor": "DeepSeek",
+          "url": "https://api.deepseek.com/v1/chat/completions",
+          "apiKey": "${DEEPSEEK_API_KEY}",
+          "maxInputTokens": 128000,
+          "maxOutputTokens": 8192,
+          "supportsToolCall": true,
+          "supportsImages": false
+        }
+      ],
+      "availableModels": [
+        "deepseek-v4-pro",
+        "deepseek-v4-flash"
+      ]
+    }
+    ```
+
+    <Warning>
+      Save `models.json` as **UTF-8 without BOM**. Some desktop versions of WorkBuddy / CodeBuddy fail to parse files saved with a UTF-8 BOM header.
+    </Warning>
+  </Step>
+
+  <Step title="Restart and select the model">
+    Fully quit WorkBuddy / CodeBuddy, then reopen it. In the model selector, choose **DeepSeek V4 Pro** or **DeepSeek V4 Flash**.
+  </Step>
+</Steps>
+
+## Verify the API key
+
+Windows users can confirm the API key is valid before configuring the app.
+
+```powershell
+$env:DEEPSEEK_API_KEY="<your DeepSeek API Key>"
+
+curl https://api.deepseek.com/v1/chat/completions `
+  -H "Content-Type: application/json" `
+  -H "Authorization: Bearer $env:DEEPSEEK_API_KEY" `
+  -d '{"model":"deepseek-v4-flash","messages":[{"role":"user","content":"hi"}],"stream":false}'
+```
+
+A successful response confirms that the API key and model name are valid.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Authentication fails or 401 error">
+    Check that `apiKey` in `models.json` is your actual DeepSeek API key. Do not paste the API base URL into the API key field.
+  </Accordion>
+
+  <Accordion title="Model not found or 404 error">
+    Verify that the `id` field is exactly `deepseek-v4-pro` or `deepseek-v4-flash` — the value is case-sensitive.
+  </Accordion>
+
+  <Accordion title="Failed to read local model configuration">
+    Confirm that `models.json` is valid JSON and saved as UTF-8 without BOM. Use a code editor to check the file encoding.
+  </Accordion>
+
+  <Accordion title="Model does not appear in the selector">
+    Fully restart WorkBuddy / CodeBuddy and confirm the file is at `.codebuddy\models.json` relative to the correct scope (user or project).
+  </Accordion>
+
+  <Accordion title="${DEEPSEEK_API_KEY} appears literally in the UI">
+    Restart WorkBuddy / CodeBuddy from a terminal where `DEEPSEEK_API_KEY` is set. If the desktop UI still does not expand the variable, paste the actual API key directly into the `apiKey` field in `models.json` or set it in the UI.
+  </Accordion>
+</AccordionGroup>

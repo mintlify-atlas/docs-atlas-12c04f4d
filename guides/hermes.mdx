@@ -1,0 +1,53 @@
+---
+title: "Hermes self-improving agent powered by DeepSeek V4"
+description: "Install Hermes by Nous Research and configure it to use DeepSeek V4 Pro — a self-improving agent that builds skills and memory across sessions."
+---
+
+Hermes is a self-improving AI agent built by Nous Research. It includes a built-in learning loop: it creates skills from experience, improves them during use, persists knowledge across sessions, and builds an evolving model of your preferences. This guide covers installation and the interactive configuration wizard that connects Hermes to the DeepSeek API.
+
+<Steps>
+  <Step title="Install Hermes">
+    The only prerequisite is Git. Run the one-line installer to set up Hermes — it handles everything else automatically:
+
+    ```bash
+    curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+    ```
+
+    <Note>
+      The installer is supported on Linux, macOS, and WSL2. For additional installation options, see the [Hermes installation page](https://hermes-agent.nousresearch.com/docs/getting-started/installation).
+    </Note>
+
+    After the installer completes, reload your shell so the `hermes` command is available:
+
+    ```bash
+    source ~/.bashrc
+    ```
+
+    On macOS, reload your shell profile instead:
+
+    ```bash
+    source ~/.zshrc
+    ```
+  </Step>
+
+  <Step title="Run the setup wizard">
+    Start the interactive configuration wizard:
+
+    ```bash
+    hermes setup
+    ```
+
+    Work through the prompts as follows:
+
+    1. Choose the **Quick Setup** option.
+    2. When prompted for the model provider, select **DeepSeek**.
+    3. Enter your [DeepSeek API key](https://platform.deepseek.com/api_keys).
+    4. Enter the base URL: `https://api.deepseek.com`
+    5. Select the `deepseek-v4-pro` model.
+    6. Continue through any remaining options to complete setup.
+
+    <Tip>
+      `deepseek-v4-pro` is recommended for agentic tasks that benefit from Hermes's learning loop. Switch to `deepseek-v4-flash` if you need faster, lower-cost responses.
+    </Tip>
+  </Step>
+</Steps>

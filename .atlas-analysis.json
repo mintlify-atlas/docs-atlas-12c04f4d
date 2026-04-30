@@ -1,24 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "Awesome DeepSeek Agent",
+  "projectType": "general",
+  "projectName": "Awesome DeepSeek Agent",
+  "projectDescription": "A curated collection of step-by-step integration guides for using DeepSeek models inside popular AI agent and coding-assistant tools.",
   "theme": "luma",
-  "colors": {
-    "primary": "#040404",
-    "light": "#a4a4a4",
-    "dark": "#323232"
-  },
-  "favicon": "https://media.brand.dev/34e9df4d-36d7-43dd-90de-83e0b052d296.svg",
-  "navbar": {
-    "primary": {
-      "type": "github",
-      "href": "https://github.com/deepseek-ai/awesome-deepseek-agent"
-    }
-  },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/deepseek-ai/awesome-deepseek-agent"
-    }
-  },
+  "primaryColor": "#040404",
+  "lightColor": "#a4a4a4",
+  "darkColor": "#323232",
   "navigation": {
     "tabs": [
       {
@@ -71,5 +58,21 @@
         ]
       }
     ]
-  }
+  },
+  "keyFeatures": [
+    "Step-by-step integration guides for 15+ popular AI agent tools",
+    "Supports DeepSeek-V4-Pro and DeepSeek-V4-Flash models",
+    "Covers terminal coding agents, editor extensions, and chat platform bots",
+    "Install, configure, and run instructions for each tool",
+    "Cross-platform coverage: Linux, macOS, and Windows",
+    "Bilingual documentation (English and Simplified Chinese)"
+  ],
+  "publicApiSurface": [
+    "DeepSeek API: https://api.deepseek.com",
+    "DeepSeek Anthropic-compatible API: https://api.deepseek.com/anthropic",
+    "Model: deepseek-v4-pro",
+    "Model: deepseek-v4-flash",
+    "Model: deepseek-v4-pro[1m] (1M context variant)",
+    "API Key from: https://platform.deepseek.com/api_keys"
+  ]
 }

@@ -1,0 +1,55 @@
+---
+title: "Langcli: AI coding assistant with DeepSeek via LangRouter"
+description: "Install Langcli and connect it to DeepSeek models via LangRouter to run an AI coding assistant from the terminal or inside Zed as an ACP Agent."
+---
+
+Langcli is an AI coding assistant that runs in the terminal and integrates with Zed as an ACP Agent. It connects to DeepSeek models through [LangRouter](https://langrouter.ai/), which provides a free trial tier so you can get started without a paid subscription.
+
+<Steps>
+  <Step title="Install Langcli">
+    <Tabs>
+      <Tab title="macOS / Linux / WSL">
+        Run the quick-install script:
+
+        ```bash
+        bash -c "$(curl -fsSL https://assets.langcli.com/installation/install-langcli.sh)"
+        ```
+      </Tab>
+      <Tab title="Windows">
+        Run the following command from an **Administrator CMD** prompt:
+
+        ```cmd
+        cmd /c "curl -fsSL -o %TEMP%\install-langcli.bat https://assets.langcli.com/installation/install-langcli.bat && %TEMP%\install-langcli.bat"
+        ```
+      </Tab>
+    </Tabs>
+
+    <Note>
+      Restart your terminal after installation to ensure environment variables take effect.
+    </Note>
+
+    **Manual installation** — requires Node.js 20 or later ([download](https://nodejs.org/en/download)):
+
+    ```bash
+    npm i -g langcli-com
+    ```
+  </Step>
+
+  <Step title="Get a LangRouter API key">
+    Go to [LangRouter](https://langrouter.ai/), register an account, and save your API key. A free trial is available — no credit card required to get started.
+  </Step>
+
+  <Step title="Run Langcli">
+    Start the interactive session:
+
+    ```bash
+    langcli
+    ```
+
+    Once inside the session, send your first message:
+
+    ```bash
+    hi
+    ```
+  </Step>
+</Steps>

@@ -1,0 +1,48 @@
+---
+title: "Connect DeepSeek to Kilo Code CLI via /connect command"
+description: "Install the Kilo Code CLI, connect the DeepSeek provider with your API key, and pick a DeepSeek model to start coding from the terminal."
+---
+
+Kilo Code is an AI coding assistant available as both a CLI and an editor extension. The CLI runs directly in your terminal — you connect a provider once, choose a model, and Kilo Code handles the rest. DeepSeek is a first-class supported provider, so no manual endpoint configuration is needed.
+
+<Steps>
+  <Step title="Install the Kilo Code CLI">
+    Install [Node.js](https://nodejs.org/en/download/) first, then run:
+
+    ```bash
+    npm install -g @kilocode/cli
+    ```
+
+    Verify the installation by checking the version:
+
+    ```bash
+    kilo --version
+    ```
+
+    If a version number is printed, the installation succeeded.
+  </Step>
+
+  <Step title="Open your project with Kilo Code">
+    Navigate to your project directory and start the CLI:
+
+    ```bash
+    cd /path/to/my-project
+    kilo
+    ```
+  </Step>
+
+  <Step title="Connect the DeepSeek provider">
+    Type `/connect` in the command bar to open the **Connect Provider** panel.
+
+    Search for `deepseek`, select **DeepSeek**, then enter your [DeepSeek API key](https://platform.deepseek.com/api_keys).
+  </Step>
+
+  <Step title="Select a DeepSeek model">
+    Type `/models` to open the model selector and choose one of the available DeepSeek models:
+
+    - **DeepSeek Chat**
+    - **DeepSeek Reasoner**
+    - **DeepSeek V4 Flash**
+    - **DeepSeek V4 Pro**
+  </Step>
+</Steps>

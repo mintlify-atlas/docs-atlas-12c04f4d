@@ -1,0 +1,135 @@
+---
+title: "Configure DeepSeek in Pi (pi-mono) terminal harness"
+description: "Set up Pi (pi-mono) as a minimal, extensible terminal coding harness backed by DeepSeek V4 Pro or Flash via an OpenAI-compatible provider block."
+---
+
+Pi (pi-mono) is a minimal, aggressively extensible terminal coding harness. It adapts to your workflows through TypeScript extensions, skills, prompt templates, and themes — with tree-structured sessions and 15+ built-in providers. DeepSeek is added as an OpenAI-compatible provider via a `models.json` file.
+
+<Steps>
+  <Step title="Install Pi">
+    Install [Node.js](https://nodejs.org/en/download/), then install Pi globally:
+
+    ```bash
+    npm install -g @mariozechner/pi-coding-agent
+    ```
+
+    Confirm the installation:
+
+    ```bash
+    pi --version
+    ```
+
+    <Note>
+      Linux and macOS users can also install via the official script:
+
+      ```bash
+      curl -fsSL https://pi.dev/install.sh | sh
+      ```
+    </Note>
+  </Step>
+
+  <Step title="Add DeepSeek to models.json">
+    Open (or create) the Pi models configuration file for your platform:
+
+    - **Linux / macOS**: `~/.pi/agent/models.json`
+    - **Windows**: `%USERPROFILE%\.pi\agent\models.json`
+
+    Add the following provider block:
+
+    ```json
+    {
+      "providers": {
+        "deepseek": {
+          "baseUrl": "https://api.deepseek.com",
+          "api": "openai-completions",
+          "apiKey": "$DEEPSEEK_API_KEY",
+          "models": [
+            {
+              "id": "deepseek-v4-pro",
+              "name": "DeepSeek V4 Pro",
+              "contextWindow": 1000000,
+              "maxTokens": 384000,
+              "input": ["text"],
+              "reasoning": true,
+              "cost": {
+                "input": 1.74,
+                "output": 3.48,
+                "cacheRead": 0.145,
+                "cacheWrite": 0
+              },
+              "compat": {
+                "requiresReasoningContentOnAssistantMessages": true,
+                "thinkingFormat": "deepseek",
+                "reasoningEffortMap": {
+                  "minimal": "high",
+                  "low": "high",
+                  "medium": "high",
+                  "high": "high",
+                  "xhigh": "max"
+                }
+              }
+            },
+            {
+              "id": "deepseek-v4-flash",
+              "name": "DeepSeek V4 Flash",
+              "contextWindow": 1000000,
+              "maxTokens": 384000,
+              "input": ["text"],
+              "reasoning": true,
+              "cost": {
+                "input": 0.14,
+                "output": 0.28,
+                "cacheRead": 0.028,
+                "cacheWrite": 0
+              },
+              "compat": {
+                "requiresReasoningContentOnAssistantMessages": true,
+                "thinkingFormat": "deepseek",
+                "reasoningEffortMap": {
+                  "minimal": "high",
+                  "low": "high",
+                  "medium": "high",
+                  "high": "high",
+                  "xhigh": "max"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+    ```
+
+    Get your API key from the [DeepSeek Platform](https://platform.deepseek.com/api_keys).
+  </Step>
+
+  <Step title="Set the API key environment variable">
+    <Tabs>
+      <Tab title="Linux / macOS">
+        ```bash
+        export DEEPSEEK_API_KEY="<your DeepSeek API Key>"
+        ```
+      </Tab>
+      <Tab title="Windows">
+        ```powershell
+        $env:DEEPSEEK_API_KEY="<your DeepSeek API Key>"
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Run Pi and select the model">
+    Navigate to your project directory and start Pi:
+
+    ```bash
+    cd /path/to/my-project
+    pi
+    ```
+
+    Type `/model` to open the model switcher. Select **deepseek** and choose `DeepSeek-V4-Pro` or `DeepSeek-V4-Flash`.
+  </Step>
+</Steps>
+
+<Tip>
+  For the full list of `models.json` fields and provider options, see the [Pi models documentation](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent/docs/models.md).
+</Tip>

@@ -1,0 +1,68 @@
+---
+title: "Run Claude Code with DeepSeek V4 via Anthropic API"
+description: "Configure Claude Code to use DeepSeek V4 Pro and Flash via the Anthropic-compatible endpoint, replacing the default model with env variables."
+---
+
+Claude Code is a terminal AI coding assistant built by Anthropic. By pointing it at the DeepSeek Anthropic-compatible endpoint, you can use DeepSeek V4 models as the underlying intelligence — with no changes to the Claude Code workflow you already know.
+
+<Steps>
+  <Step title="Install Claude Code">
+    Install [Node.js](https://nodejs.org/en/download/) 18 or later. Windows users also need [Git for Windows](https://git-scm.com/download/win).
+
+    Install the Claude Code package globally:
+
+    ```bash
+    npm install -g @anthropic-ai/claude-code
+    ```
+
+    Confirm the installation succeeded:
+
+    ```bash
+    claude --version
+    ```
+  </Step>
+
+  <Step title="Configure environment variables">
+    Get your API key from the [DeepSeek Platform](https://platform.deepseek.com/api_keys), then set the following environment variables.
+
+    <Tabs>
+      <Tab title="Linux / macOS">
+        ```bash
+        export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+        export ANTHROPIC_AUTH_TOKEN=<your DeepSeek API Key>
+        export ANTHROPIC_MODEL=deepseek-v4-pro[1m]
+        export ANTHROPIC_DEFAULT_OPUS_MODEL=deepseek-v4-pro[1m]
+        export ANTHROPIC_DEFAULT_SONNET_MODEL=deepseek-v4-pro[1m]
+        export ANTHROPIC_DEFAULT_HAIKU_MODEL=deepseek-v4-flash
+        export CLAUDE_CODE_SUBAGENT_MODEL=deepseek-v4-flash
+        export CLAUDE_CODE_EFFORT_LEVEL=max
+        ```
+      </Tab>
+      <Tab title="Windows">
+        ```powershell
+        $env:ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
+        $env:ANTHROPIC_AUTH_TOKEN="<your DeepSeek API Key>"
+        $env:ANTHROPIC_MODEL="deepseek-v4-pro[1m]"
+        $env:ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-v4-pro[1m]"
+        $env:ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-v4-pro[1m]"
+        $env:ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash"
+        $env:CLAUDE_CODE_SUBAGENT_MODEL="deepseek-v4-flash"
+        $env:CLAUDE_CODE_EFFORT_LEVEL="max"
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Run Claude Code">
+    Navigate to your project directory and start Claude Code:
+
+    ```bash
+    cd /path/to/my-project
+    claude
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  The configuration above maps all Claude model tiers to DeepSeek equivalents: Opus and Sonnet requests go to `deepseek-v4-pro[1m]` (the 1 M-token context variant), while Haiku and sub-agent calls use the faster `deepseek-v4-flash`. Setting `CLAUDE_CODE_EFFORT_LEVEL=max` enables maximum reasoning effort for the primary model.
+</Tip>

@@ -1,0 +1,67 @@
+---
+title: "OpenClaw with DeepSeek: Feishu and WeChat AI assistant"
+description: "Set up OpenClaw to connect DeepSeek models to Feishu and WeChat, then interact via a web dashboard, terminal TUI, or inline terminal chat."
+---
+
+OpenClaw is an open-source personal AI assistant that connects to popular chat platforms like Feishu and WeChat and can be extended through Skills. Its interactive setup wizard makes it straightforward to point it at DeepSeek as your model provider. This guide covers installation, initial configuration, and the three ways to start chatting.
+
+<Steps>
+  <Step title="Install OpenClaw">
+    Run the appropriate installer for your operating system.
+
+    **Linux and macOS**
+
+    ```bash
+    curl -fsSL https://openclaw.ai/install.sh | bash
+    ```
+
+    **Windows**
+
+    ```powershell
+    iwr -useb https://openclaw.ai/install.ps1 | iex
+    ```
+  </Step>
+
+  <Step title="Configure OpenClaw with DeepSeek">
+    After installation completes, the setup wizard starts automatically. If you have already installed OpenClaw and need to re-run setup, start it manually:
+
+    ```bash
+    openclaw onboard --install-daemon
+    ```
+
+    Work through the prompts as follows:
+
+    - **`I understand this is personal-by-default and shared/multi-user use requires lock-down. Continue?`** — Select **Yes**.
+    - **`Setup mode`** — Select **QuickStart**.
+    - **`Model/auth provider`** — Select **DeepSeek**.
+    - **`Enter DeepSeek API key`** — Paste your [DeepSeek API key](https://platform.deepseek.com/api_keys).
+    - **`Default model`** — Navigate to **Enter model** and type `deepseek-v4-pro` or `deepseek-v4-flash`.
+    - **Remaining options** (message channels, Skills, etc.) — Configure as needed, or select **Skip for now**.
+
+    <Tip>
+      `deepseek-v4-pro` is best for complex, multi-step tasks. `deepseek-v4-flash` is faster and more cost-efficient for lighter workloads.
+    </Tip>
+  </Step>
+
+  <Step title="Start chatting">
+    OpenClaw offers three interfaces. Choose the one that suits your workflow.
+
+    **Web dashboard** — opens the chat UI in your browser:
+
+    ```bash
+    openclaw dashboard
+    ```
+
+    **TUI** — a terminal-based interface:
+
+    ```bash
+    openclaw tui
+    ```
+
+    **Terminal chat** — inline chat directly in your shell:
+
+    ```bash
+    openclaw terminal
+    ```
+  </Step>
+</Steps>
